@@ -12,53 +12,28 @@ use tui::{
     widgets::{Block, Borders, /*Widget,*/ Paragraph},
     Terminal,
 };
-
-fn render<B: Backend>(terminal: &mut Terminal<B>, sentence: &String) {
-    terminal
-        .draw(|f| {
-            let layout = Layout::default()
-                .direction(Direction::Vertical)
-                .margin(1)
-                .constraints(
-                    [
-                        Constraint::Percentage(5),
-                        Constraint::Percentage(80),
-                        Constraint::Percentage(10),
-                    ]
-                    .as_ref(),
-                )
-                .split(f.size());
-
-            let title_block = Block::default()
-                .title("KeyboardRacer")
-                .borders(Borders::NONE)
-                .style(
-                    Style::default()
-                        .fg(Color::Blue)
-                        .add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                );
-
-            let job_block = Block::default().borders(Borders::ALL);
-
-            let p = Paragraph::new(vec![Spans::from(vec![Span::raw(sentence)])]).block(job_block);
-
-            f.render_widget(title_block, layout[0]);
-            f.render_widget(p, layout[1]);
-        })
-        .unwrap();
-}
+mod render;
+use render::render;
 
 fn main() -> Result<(), io::Error> {
-    // setup terminal
+    // ??
     enable_raw_mode()?;
+    // variable 
     let mut stdout = io::stdout();
+    // Met le fond noir -> rentre dans
+    // un autre ecran
     execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
+    // 
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
+
+
     let mut sentence = String::new();
 
-    // programme loop
+    // render the first frame
+    // All the other frame will be rendered after an action
     render(&mut terminal, &sentence);
+    
     loop {
         match read()? {
             Event::Key(e) => {
@@ -71,6 +46,11 @@ fn main() -> Result<(), io::Error> {
                     _ => (),
                 }
                 render(&mut terminal, &sentence);
+            }
+            Event::Mouse(_e) => {
+                //sentence.push('a');
+                //render(&mut terminal, &sentence);
+
             }
             _ => (),
         }
@@ -86,3 +66,11 @@ fn main() -> Result<(), io::Error> {
     terminal.show_cursor()?;
     Ok(())
 }
+
+pub fn event_handler(code: KeyCode) -> Result<(), io::Error> {
+
+
+
+    Ok(())
+}
+
