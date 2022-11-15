@@ -1,19 +1,19 @@
 use crossterm::{
-    event::{poll, read, DisableMouseCapture, EnableMouseCapture, Event, KeyCode},
+    event::{read, DisableMouseCapture, EnableMouseCapture, Event, KeyCode},
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
 use std::io;
 use tui::{
     backend::{Backend, CrosstermBackend},
-    layout::{Constraint, Direction, Layout},
-    style::{Color, Modifier, Style},
-    text::{Span, Spans},
-    widgets::{Block, Borders, /*Widget,*/ Paragraph},
+    //layout::{Constraint, Direction, Layout},
+    //style::{Color, Modifier, Style},
+    //text::{Span, Spans},
+    //widgets::{Block, Borders, /*Widget,*/ Paragraph},
     Terminal,
 };
 mod render;
-use render::render;
+use render::{render};
 
 fn main() -> Result<(), io::Error> {
     // ??
@@ -68,9 +68,6 @@ fn main() -> Result<(), io::Error> {
 }
 
 pub fn event_handler(code: KeyCode) -> Result<(), io::Error> {
-
-
-
     Ok(())
 }
 
