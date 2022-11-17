@@ -31,10 +31,7 @@ fn main_block(sentence: &String, display_block: bool) -> Paragraph {
     let main_block = Block::default().borders(Borders::ALL);
     let mut spans = vec![Span::styled(
         sentence,
-        Style::default()
-            .fg(Color::White)
-            .bg(Color::Black)
-            .add_modifier(Modifier::BOLD),
+        Style::default().fg(Color::White).bg(Color::Black), //           .add_modifier(Modifier::BOLD),
     )];
     if display_block {
         spans.push(Span::raw(BLOCK_CHAR.to_string()));
@@ -63,14 +60,14 @@ fn set_vertical_layout<B: Backend>(
 pub fn render<B: Backend>(
     terminal: &mut Terminal<B>,
     render_infos: &CeQueJeMetDansRender,
-    delta: f64,
+    _delta: f64,
 ) {
     terminal
         .draw(|frame| {
             let layout = set_vertical_layout(vec![5, 50, 45], frame);
 
             // Render blocks
-            let main_block = main_block(&render_infos.sentence, delta < 0.5);
+            let main_block = main_block(&render_infos.sentence, true);
             frame.render_widget(title_block(), layout[0]);
             frame.render_widget(main_block, layout[1]);
         })
